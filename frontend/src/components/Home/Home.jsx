@@ -1,9 +1,16 @@
+import HomeView from "./HomeView";
+import { useState } from "react";
+
 function Home(){
+    const [isAlertClicked , setIsAlertClicked] = useState(false);
+    console.log('isAlertClicked', isAlertClicked);
+
+    const handleAlertClick = () => {
+        console.log('Alert button clicked');
+        setIsAlertClicked(true);
+    }
     return (
-        <main>
-            <div>hello Im home</div>
-        </main>
-        
+        <HomeView isAlertClicked={isAlertClicked} handleAlertClick={handleAlertClick}/>
     )
 }
 

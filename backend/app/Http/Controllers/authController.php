@@ -67,4 +67,12 @@ class authController extends Controller
         // Return a success response
         return response()->json(['message' => 'User logged out successfully']);
     }
+
+    public function store(Request $request)
+    {
+        return response()->json([
+            'message' => 'the backend respond successfully',
+        ]);
+
+    }
 }

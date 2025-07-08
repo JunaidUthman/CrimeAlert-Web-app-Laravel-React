@@ -14,7 +14,6 @@ export const isLoggedin = ()=>{
 }
 
 export const logout = async()=>{
-    alert('Logout successful');
     await apiClient.post('/logout');
 
     localStorage.removeItem('access_token');
