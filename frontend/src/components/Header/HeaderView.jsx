@@ -10,7 +10,10 @@ const HeaderView = ({ isMenuOpen, toggleMenu}) => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="bg-red-600 text-white px-3 py-2 rounded-md font-bold text-lg">
-              CrimeAlert
+              <Link to="/" >
+                SafetyNet
+              </Link>
+              
             </div>
           </div>
 
@@ -27,9 +30,6 @@ const HeaderView = ({ isMenuOpen, toggleMenu}) => {
             </Link>}
             {!isLoggedin() && <Link to="/signup" className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
               SignUp
-            </Link>}
-            {isLoggedin() && <Link to="/profile" className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-              Profile
             </Link>}
             <Link to="/about" className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
               About

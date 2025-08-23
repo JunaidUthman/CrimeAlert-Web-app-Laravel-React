@@ -8,3 +8,21 @@ export const createAlert = async (alertData) => {
         lng: alertData.lng,
     });
 } 
+export const UpdateAlert = async (alertData) => {
+    return apiClient.post('/UpdateAlert', {
+        id : alertData.id,
+        title: alertData.title,
+        description: alertData.description,
+        lat: alertData.lat,
+        lng: alertData.lng,
+    });
+} 
+export const DeleteAlert = async (alertData) => {
+    return apiClient.post('/DeleteAlert', {
+        id : alertData.id
+    });
+} 
+
+export const getMyAlerts = async () => {
+    return apiClient.get('/getMyAlerts');
+}

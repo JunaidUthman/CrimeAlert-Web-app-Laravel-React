@@ -1,7 +1,16 @@
 import MapComponent from "../MapComponent/MapComponent";
 import AlertForm from "../AlertForm/AlertForm";
+import { useState } from "react";
 
-function HomeView({isAlertClicked , handleAlertClick}){
+function HomeView({isAlertClicked , handleAlertClick , handleGoBackClick}){
+    const formType = "create";
+    const [goback , setGoBack] = useState(true);
+    if(goback){
+        console.log("u can change the view now")
+        handleGoBackClick();
+        setGoBack(false);
+    }
+    const [Coords , selectCoords] = useState(null);
     return (
         <main className="min-h-screen bg-gray-50">
             {/* Header Section */}
@@ -26,7 +35,7 @@ function HomeView({isAlertClicked , handleAlertClick}){
                             <p className="text-red-100 text-sm">Real-time crime data visualization</p>
                         </div>
                         <div className="h-full min-h-[500px] bg-gray-100">
-                            <MapComponent/>
+                            <MapComponent onSelect={selectCoords} />
                         </div>
                     </div>
 
@@ -64,28 +73,9 @@ function HomeView({isAlertClicked , handleAlertClick}){
                                     ⚠️ Create Alert
                                 </button>
                             </div>
-
-                            {/* Statistics Section */}
-                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                                <h3 className="font-semibold text-gray-900 mb-3">Quick Stats</h3>
-                                <div className="space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Active Alerts</span>
-                                        <span className="font-semibold text-red-600">--</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Last Update</span>
-                                        <span className="font-semibold text-gray-900">--</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Coverage Area</span>
-                                        <span className="font-semibold text-gray-900">--</span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>}
-                    {isAlertClicked && <div className="w-[40%] shadow-xl rounded-xl"><AlertForm/></div>}
+                    {isAlertClicked && <div className="w-[40%] shadow-xl rounded-xl"><AlertForm Coords={Coords} setGoBack={setGoBack} formType={formType}/></div>}
                 </div>
             </div>
         </main>

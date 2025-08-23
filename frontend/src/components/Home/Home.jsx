@@ -3,14 +3,27 @@ import { useState } from "react";
 
 function Home(){
     const [isAlertClicked , setIsAlertClicked] = useState(false);
-    console.log('isAlertClicked', isAlertClicked);
+    
+
+    const onSelectCoords = (coords) => {
+        // console.log("Coordinates received in parent:", coords);
+        setSelectedCoords(coords);
+    };
 
     const handleAlertClick = () => {
-        console.log('Alert button clicked');
-        setIsAlertClicked(true);
+        if(localStorage.getItem('access_token')){
+            setIsAlertClicked(true);
+        }
+        else{
+            alert("Please login to access this feature.");
+        }
+        
+    }
+    const handleGoBackClick = () => {
+        setIsAlertClicked(false);
     }
     return (
-        <HomeView isAlertClicked={isAlertClicked} handleAlertClick={handleAlertClick}/>
+        <HomeView isAlertClicked={isAlertClicked} handleAlertClick={handleAlertClick} handleGoBackClick={handleGoBackClick} />
     )
 }
 

@@ -1,26 +1,25 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use \App\Models\User;
 
-
-class alerts extends Model
+class CrimeAlert extends Model
 {
-    /** @use HasFactory<\Database\Factories\AlertsFactory> */
     use HasFactory;
-
     protected $fillable = [
-        'title',
+        'user_id',
         'lat',
         'lng',
         'description',
+        'isVerified'
+    ];
+    protected $casts = [
+        'lat' => 'float',
+        'lng' => 'float',
     ];
 
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

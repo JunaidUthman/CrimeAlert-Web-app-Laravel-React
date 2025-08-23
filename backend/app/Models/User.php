@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use \App\Models\alerts;
+// use App\Models\Alert;
+use App\Models\CrimeAlert;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -24,10 +25,10 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function alerts()
-    {
-        return $this->hasMany(alerts::class);
-    }
+    // public function alerts()
+    // {
+    //     return $this->hasMany(Alert::class);
+    // }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,5 +51,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function crimeAlerts(){
+        return $this->hasMany(CrimeAlert::class);
     }
 }

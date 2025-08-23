@@ -4,6 +4,8 @@ import SignUp from './components/SignUp/SignUp.jsx';
 import Login from './components/Login/Login.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import Logout from './components/Logout/Logout.jsx';
+import Alerts from './components/Alerts/Alerts.jsx';
+import About from './components/About/About.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 
@@ -19,6 +21,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/alerts" element={<Alerts />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </main>
         <Footer />
