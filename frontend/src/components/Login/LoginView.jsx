@@ -1,6 +1,12 @@
-function LoginView({handleChange , handleSubmit , formData , errors , emailFound}) {
+function LoginView({handleChange , handleSubmit , formData , errors , emailFound , loading}) {
     return (
         <main className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {loading && 
+            <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white bg-opacity-70">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-200 border-t-red-600 mb-4"></div>
+                <div className="text-gray-600 text-lg font-medium">Logging In....</div>
+            </div>
+            }
             <div className="max-w-md w-full space-y-8">
                 
                 <div className="bg-white shadow-md rounded-lg p-8">

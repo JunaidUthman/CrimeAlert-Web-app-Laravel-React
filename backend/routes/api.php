@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->post('/createAlert', [CrimeAlertController::c
 Route::middleware('auth:sanctum')->post('/UpdateAlert', [CrimeAlertController::class, 'Update']);
 Route::middleware('auth:sanctum')->post('/DeleteAlert', [CrimeAlertController::class, 'Delete']);
 Route::middleware('auth:sanctum')->get('/getMyAlerts', [CrimeAlertController::class, 'getMyAlerts']);
+Route::middleware('auth:sanctum')->get('/getNearByAlerts', [CrimeAlertController::class, 'getNearByAlerts']);
 
 Route::get('/locations', [LocationController::class, 'index']);
 

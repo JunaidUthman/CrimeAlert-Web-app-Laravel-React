@@ -118,7 +118,7 @@ export default function CrimeReportForm({ formData, handleInputChange, handleSub
                     </p>
                 </div>
                 <div className="flex justify-center">
-                    {location.pathname === "/" && <button
+                    {(location.pathname === "/" || location.pathname === "/home") && <button
                         type="button"
                         onClick={GoBack}
                         className="mt-10 bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-semibold text-sm transition-colors duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"

@@ -9,22 +9,27 @@ use Illuminate\Support\Facades\Auth;
 
 class authController extends Controller
 {
+
     public function register(Request $request)
     {
         $fullName = $request->input('fullName');
         $email = $request->input('email');
         $password = $request->input('password');
 
+        // Check if email already exists
+        if (User::where('email', $email)->exists()) {
+            return response()->json([
+                'message' => 'The email already exists.'
+            ], 409);
+        }
+
         // Create a new user
         $user = User::create([
             'fullName' => $fullName,
             'email' => $email,
-            'password' => bcrypt($password), // Hash the password
+            'password' => bcrypt($password), 
         ]);
 
-        //Auth::login($user);
-
-        // Return a success response
         return response()->json(['message' => 'User registered successfully', 'user' => $user ], 201);
     }
 
@@ -32,7 +37,6 @@ class authController extends Controller
     public function login(Request $request)
     {
 
-        // Check if user exists
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {

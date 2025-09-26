@@ -26,3 +26,7 @@ export const DeleteAlert = async (alertData) => {
 export const getMyAlerts = async () => {
     return apiClient.get('/getMyAlerts');
 }
+
+export const getNearByAlerts = async (lat, lng) => {
+    return apiClient.get(`/getNearByAlerts?lat=${lat}&lng=${lng}`);
+}

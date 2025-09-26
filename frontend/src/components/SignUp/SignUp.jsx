@@ -1,9 +1,14 @@
 import SignUpView from "./SignUpView";
 import React, { useState } from 'react';
 import { register } from '../../services/register';
+import { login } from '../../services/login';
+import { useNavigate } from "react-router-dom";
+
 
 
 function SignUp() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -35,29 +40,42 @@ function SignUp() {
     });
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
+  setLoading(true);
+  e.preventDefault();
 
-    e.preventDefault();
+  const validationErrors = validate();
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    setLoading(false);
+    return;
+  }
+  try {
+    const response = await register(formData);
 
-    const validationErrors = validate();
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    console.log('You have registered successfully. You are going to be logged in automatically');
     try {
-      const response = await register(formData);
-      // Handle success (e.g., show a message, redirect, etc.)
-      console.log('Registration successful:', response.data);
-    } catch (error) {
-      // Handle error (e.g., show error message)
-      if (error.response && error.response.data) {
-        setErrors({ api: error.response.data.message || 'Registration failed' });
-      } else {
-        setErrors({ api: 'Registration failed' });
-      }
+      const loginResponse = await login(formData);
+      localStorage.setItem('access_token', loginResponse.data.access_token);
+      console.log('login successful');
+      setLoading(false);
+      navigate('/home');
+      window.location.reload();
+    } catch (err) {
+      console.log('Login after registration failed, try and login manually', err);
+      setLoading(false);
     }
-  };
+  } catch (error) {
+    setLoading(false);
+    if (error.response?.status === 409) {
+      setErrors({ email: error.response.data.message || 'Email already in use' });
+      alert(error.response.data.message || 'Email already in use'); 
+    } else {
+      setErrors({ api: error.response?.data?.message || 'Registration failed' });
+      alert(error.response?.data?.message || 'Registration failed');
+    }
+  }
+};
 
   return (
     <main>
@@ -66,6 +84,7 @@ function SignUp() {
         handleChange={handleChange}
         formData={formData}
         errors={errors}
+        loading= {loading}
       />
     </main>
   );

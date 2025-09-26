@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login(){
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -33,11 +34,12 @@ function Login(){
         });
         setErrors({
           ...errors,
-          [e.target.name]: undefined // clear error on change
+          [e.target.name]: undefined 
         });
       };
     
     const handleSubmit = async (e) => {
+      setLoading(true);
     
         
         e.preventDefault();
@@ -58,17 +60,17 @@ function Login(){
           console.log('response', response.data.access_token);
 
           console.log('login successful:', response.data);
+          setLoading(false);
           
           navigate('/home');
           window.location.reload();
 
         } catch (error) {
+            setLoading(false);
             if(error.status === 404 || error.status === 401){
               setEmailNotFound(false);
             }
-            else{
-                console.error('Login failed:', error);
-            }
+
         }
     };
     
@@ -80,6 +82,7 @@ function Login(){
             formData={formData}
             errors={errors}
             emailFound={emailFound}
+            loading = {loading}
           />
         </main>
       );

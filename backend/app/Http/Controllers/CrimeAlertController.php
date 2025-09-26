@@ -129,11 +129,48 @@ class CrimeAlertController extends Controller
         $user = Auth::user();
         return response()->json(
             $user->crimeAlerts()
+                ->orderBy('created_at', 'desc')
                 ->get()
         );
+    }
+
+    public function getNearByAlerts(Request $request)
+    {
+        $request->validate([
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
+        ]);
+
+        $lat = $request->input('lat');
+        $lng = $request->input('lng');
+
+        // Radius in kilometers
+        $radius = 1; 
+
+        // Haversine formula in raw SQL
+        $nearbyAlerts = CrimeAlert::select('*')
+            ->selectRaw("(6371 * acos(cos(radians(?)) * cos(radians(lat)) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance", [$lat, $lng, $lat])
+            ->having('distance', '<=', $radius)
+            ->orderBy('distance', 'asc')
+            ->get();
+
+        $count = $nearbyAlerts->count();
+
+       if ($count > 0) {
+            return response()->json([
+                'message' => "There were {$count} crime(s) reported near your current location.Be Safe!!",
+                'alerts' => $nearbyAlerts
+            ]);
+        } else {
+            return response()->json([
+                'message' => "No crimes were reported near your current location."
+            ]);
+        }
+
     }
 
 
 
 
 }
+  
