@@ -9,36 +9,48 @@ use Illuminate\Support\Facades\Http;
 
 class CrimeAlertController extends Controller
 {
+
     public function create(Request $request)
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Unauthorized: User not authenticated',
+                ], 401);
+            }
 
+            $originalDescription = $request->input('description');
+            $lat = $request->input('lat');
+            $lng = $request->input('lng');
 
-        $originalDescription = $request->input('description');
+            // Check for missing required fields
+            if (empty($originalDescription) || empty($lat) || empty($lng)) {
+                return response()->json([
+                    'message' => 'Missing required fields',
+                ], 400);
+            }
 
+            // $aiResponse = $this->cleanDescription($originalDescription); // Uncomment in production
 
-        // $aiResponse = $this->cleanDescription($originalDescription); this is commented to not waste tokens in the dev phase
-        if($originalDescription){// replace thios with $aiResponse
             $crime = $user->crimeAlerts()->create([
-            'lat' => $request->input('lat'),
-            'lng' => $request->input('lng'),
-            'description' => $originalDescription,  // replace thios with $aiResponse
-            'isVerified' => true
-        ]);
+                'lat' => $lat,
+                'lng' => $lng,
+                'description' => $originalDescription, // Replace with $aiResponse in production
+                'isVerified' => true
+            ]);
 
-        return response()->json([
-            'message' => 'Crime alert created successfully',
-            'crime' => $crime,
-            'aiResponse' => $originalDescription // replace thios with $aiResponse
-        ], 201);
-
-        }
-        else{
             return response()->json([
-            'message' => 'a probleme accured while storing the crime',
-            'crime' => $crime,
-            'aiResponse' => $aiResponse
-        ], 201);
+                'message' => 'Crime alert created successfully',
+                'crime' => $crime,
+                'aiResponse' => $originalDescription // Replace with $aiResponse in production
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while storing the crime',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
     public function Update(Request $request)

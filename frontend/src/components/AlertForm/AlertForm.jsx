@@ -108,7 +108,6 @@ export default function AlertForm({Coords , setGoBack , formType , UpdateData , 
 
             
         } catch (error) {
-            console.error("Error creating crime report:", error);
             alert("An error occurred. Please try again.");
         }
     };
