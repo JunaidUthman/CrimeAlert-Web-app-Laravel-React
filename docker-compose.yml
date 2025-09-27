@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  # Laravel backend
+  backend:
+    build: ./backend
+    container_name: laravel_app
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: crimeAlert
+      DB_USERNAME: root
+      DB_PASSWORD: test
+    depends_on:
+      - db
+
+  # React frontend
+  frontend:
+    build: ./frontend
+    container_name: react_app
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
+  # MySQL database
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+# Named volume for database persistence
+volumes:
+  db_data:
