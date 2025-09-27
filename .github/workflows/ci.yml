@@ -34,7 +34,12 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --no-progress --no-interaction --prefer-dist
-        working-directory: ./backend  
+        working-directory: ./backend
+
+      - name: Copy .env.example
+        run: cp .env.example .env
+        working-directory: ./backend
+  
 
       - name: Generate App Key
         run: php artisan key:generate
