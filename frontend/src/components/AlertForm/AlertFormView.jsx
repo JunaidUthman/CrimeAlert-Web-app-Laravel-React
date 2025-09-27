@@ -1,12 +1,18 @@
 import { useState } from "react";
 
-export default function CrimeReportForm({ formData, handleInputChange, handleSubmit, getCurrentLocation, errors , setGoBack , closePopup}) {
+export default function CrimeReportForm({ formData, handleInputChange, handleSubmit, getCurrentLocation, errors , setGoBack , closePopup , loading}) {
     const GoBack = () => {
         setGoBack(true);
         console.log("Go back function is called");
     };
     return (
         <main className="h-full">
+            {loading && 
+            <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white bg-opacity-70">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-200 border-t-red-600 mb-4"></div>
+                <div className="text-gray-600 text-lg font-medium">Logging In....</div>
+            </div>
+            }
             {location.pathname === "/alerts" && 
                     <div className="flex justify-end mb-3 ">
                         <button

@@ -6,6 +6,7 @@ import {createAlert} from "../../services/AlertService";
 export default function AlertForm({Coords , setGoBack , formType , UpdateData , closePopup}) {
 
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -72,11 +73,15 @@ export default function AlertForm({Coords , setGoBack , formType , UpdateData , 
 
         try {
             if(formType == "create"){
-                console.log("formType is create");
+                setLoading(true);
                 const response = await createAlert(formData);
+                setLoading(false);
 
                 if (response.status === 201) {
+                    
                     alert("Crime report created successfully!");
+                    
+                    window.location.reload();
                     console.log("AI response", response);
                     setFormData({ title: "", lat: "", lng: "", description: "" });
                 } else {
@@ -85,9 +90,13 @@ export default function AlertForm({Coords , setGoBack , formType , UpdateData , 
                 }
             }
             else if(formType=="update"){
+                setLoading(true);
                 const response = await UpdateAlert(formData);
+                setLoading(false);
+
                 if (response.status === 201) {
                     alert("Crime report updated successfully!");
+                    window.location.reload();
                     console.log("AI response", response);
                     setFormData({ title: "", lat: "", lng: "", description: "" });
                 } else {
@@ -134,6 +143,7 @@ export default function AlertForm({Coords , setGoBack , formType , UpdateData , 
             formType={formType}
             setGoBack={setGoBack}
             closePopup = {closePopup}
+            loading={loading}
             />}
         </main>
         

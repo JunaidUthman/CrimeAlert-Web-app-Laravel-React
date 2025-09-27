@@ -1,0 +1,4 @@
+.crime-map-z {
+  z-index: 0 !important;
+  position: relative;
+}

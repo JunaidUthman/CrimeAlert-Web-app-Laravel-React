@@ -45,10 +45,11 @@ export default function Alerts() {
     DeleteAlert(Alert)
     .then((res)=>{
       alert("Alert deleted successfully");
+      window.location.reload();
     })
     .catch((err)=>{
       console.error(err);
-      alert("Failed to delete alert. Please try again.");
+      alert("Failed to delete alert. Please try later.");
     })
   };
 

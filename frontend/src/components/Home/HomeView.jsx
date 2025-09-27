@@ -140,7 +140,7 @@ function HomeView({isAlertClicked , handleAlertClick , handleGoBackClick , handl
     const [Coords , selectCoords] = useState(null);
     
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen mt-12">
             {/* Hero Section - Full Screen */}
              {!isLoggedIn && <HeroSection />}
             

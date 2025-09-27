@@ -65,7 +65,7 @@ export default function MapComponent({ onSelect }) {
   const mapCenter = [34.020882, -6.841650];
 
   return (
-    <MapContainer center={mapCenter} zoom={13} style={{ height: '500px', width: '100%' }}>
+    <MapContainer center={mapCenter} zoom={13} style={{ height: '500px', width: '100%' }} className="crime-map-z">
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
