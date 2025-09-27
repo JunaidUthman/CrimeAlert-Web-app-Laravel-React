@@ -34,12 +34,16 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --no-progress --no-interaction --prefer-dist
+        working-directory: ./backend  
 
       - name: Generate App Key
         run: php artisan key:generate
+        working-directory: ./backend 
 
       - name: Run Laravel migrations
         run: php artisan migrate --force
+        working-directory: ./backend   
 
       - name: Run Tests
         run: php artisan test
+        working-directory: ./backend  
