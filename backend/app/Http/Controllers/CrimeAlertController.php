@@ -155,12 +155,17 @@ class CrimeAlertController extends Controller
         // Extract the cleaned text
         return $result['choices'][0]['message']['content'] ;
     }
-    public function getMyAlerts(){
+    public function getMyAlerts() {
         $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized: User not authenticated'], 401);
+        }
+
         return response()->json(
             $user->crimeAlerts()
                 ->orderBy('created_at', 'desc')
-                ->get()
+                ->get(),
+            201 
         );
     }
 
