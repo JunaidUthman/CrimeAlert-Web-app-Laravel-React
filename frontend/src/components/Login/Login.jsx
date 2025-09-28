@@ -41,8 +41,6 @@ function Login(){
     const handleSubmit = async (e) => {
       setLoading(true);
     
-        
-        e.preventDefault();
     
         const validationErrors = validate();
         
@@ -69,6 +67,7 @@ function Login(){
             setLoading(false);
             if(error.status === 404 || error.status === 401){
               setEmailNotFound(false);
+              alert('Your email or password is incorrect. Please try again.');
             }
 
         }

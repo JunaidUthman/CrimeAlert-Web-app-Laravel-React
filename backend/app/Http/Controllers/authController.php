@@ -15,6 +15,8 @@ class authController extends Controller
         $fullName = $request->input('fullName');
         $email = $request->input('email');
         $password = $request->input('password');
+        $lat = $request->input('lat');
+        $lng = $request->input('lng');
 
         // Check if email already exists
         if (User::where('email', $email)->exists()) {
@@ -28,6 +30,8 @@ class authController extends Controller
             'fullName' => $fullName,
             'email' => $email,
             'password' => bcrypt($password), 
+            'lat' => $lat,
+            'lng' => $lng,
         ]);
 
         return response()->json(['message' => 'User registered successfully', 'user' => $user ], 201);

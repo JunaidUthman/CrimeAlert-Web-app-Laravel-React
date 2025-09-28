@@ -4,7 +4,7 @@ import { isLoggedin } from '../../services/login.js';
 
 const HeaderView = ({ isMenuOpen, toggleMenu}) => {
   return (
-    <header className="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50">
+    <header className="fixed top-0 left-0 w-full bg-white shadow-md border-b border-gray-200 z-50 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -37,6 +37,7 @@ const HeaderView = ({ isMenuOpen, toggleMenu}) => {
             {isLoggedin() && <Link to="/logout" className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
               Logout
             </Link>}
+            
           </nav>
 
           {/* Mobile Menu Button */}

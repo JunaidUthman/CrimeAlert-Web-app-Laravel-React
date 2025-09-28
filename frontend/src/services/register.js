@@ -7,5 +7,7 @@ export const register = async (formData) => {
     fullName: formData.fullName,
     email: formData.email,
     password: formData.password,
+    lat: formData.lat,
+    lng: formData.lng,
   });
 };

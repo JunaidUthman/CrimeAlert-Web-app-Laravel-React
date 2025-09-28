@@ -1,10 +1,12 @@
 import MapComponent from "../MapComponent/MapComponent";
+import {getMyNotifications} from "../../services/AlertService";
 import AlertForm from "../AlertForm/AlertForm";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
 import { Shield, Camera, Lock, Phone, Search, AlertTriangle, Eye, MapPin, Bell, Car, Zap, Users, Target, Smartphone, Activity } from 'lucide-react';
+
+
 
 // Floating Icons Component
 const FloatingIconsBackground = () => {
@@ -128,9 +130,24 @@ const HeroSection = () => {
 
 function HomeView({isAlertClicked , handleAlertClick , handleGoBackClick , handleScan , loading}){
     const formType = "create";
-
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [goback , setGoBack] = useState(true);
     const isLoggedIn = !!localStorage.getItem('access_token');
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        if(localStorage.getItem('access_token')){
+            getMyNotifications()
+            .then(response => {
+            setNotifications(response.data.notifications);
+            // console.log('notifications', response.data);
+            })
+            .catch(error => {
+            console.error('Error fetching notifications:', error);
+            });
+        }
+        
+    }, []);
     
     if(goback){
         console.log("u can change the view now")
@@ -140,7 +157,72 @@ function HomeView({isAlertClicked , handleAlertClick , handleGoBackClick , handl
     const [Coords , selectCoords] = useState(null);
     
     return (
-        <div className="min-h-screen mt-12">
+        <div className="min-h-screen">
+            {/* Notification Button - Top Left */}
+            <button
+                className="fixed top-20 right-6 z-50 bg-white shadow-lg rounded-full p-3 border border-red-200 hover:bg-red-100 transition-all duration-200 flex items-center"
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Show notifications"
+            >
+                <Bell className="w-6 h-6 text-red-600" />
+            </button>
+
+            {/* Notification Sidebar */}
+            <div
+                className={`fixed top-0 left-0 h-full w-80 bg-white shadow-xl z-50 transition-transform duration-300 ${
+                    sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                }`}
+            >
+                <div className="flex items-center justify-between px-4 py-3 border-b">
+                    <h2 className="text-lg font-semibold text-red-600">Notifications</h2>
+                    <button
+                        className="text-gray-500 hover:text-red-600"
+                        onClick={() => setSidebarOpen(false)}
+                        aria-label="Close sidebar"
+                    >
+                        ✕
+                    </button>
+                </div>
+                <div className="p-4">
+                {notifications.length > 0 ? (
+                    <ul className="space-y-3">
+                    {notifications.map((n) => (
+                        <li
+                        key={n.id}
+                        className="border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow"
+                        >
+                        <div className="flex justify-between items-center">
+                            <h3 className="font-semibold text-gray-800">{n.title}</h3>
+                            <span className="text-xs text-gray-500">
+                            {new Date(n.created_at).toLocaleDateString()}
+                            </span>
+                        </div>
+                        <div className="flex justify-end mt-2">
+                            <a
+                            href="#"
+                            className="text-sm text-red-600 hover:underline font-medium"
+                            >
+                            See more →
+                            </a>
+                        </div>
+                        </li>
+                    ))}
+                    </ul>
+                ) : (
+                    <p className="text-gray-500">No notifications yet.</p>
+                )}
+                </div>
+
+            </div>
+
+            {/* Overlay when sidebar is open */}
+            {sidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-20 z-40"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
             {/* Hero Section - Full Screen */}
              {!isLoggedIn && <HeroSection />}
             

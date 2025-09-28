@@ -30,3 +30,7 @@ export const getMyAlerts = async () => {
 export const getNearByAlerts = async (lat, lng) => {
     return apiClient.get(`/getNearByAlerts?lat=${lat}&lng=${lng}`);
 }
+
+export const getMyNotifications = async () => {
+    return apiClient.get('/getMyNotifications');
+}

@@ -32,7 +32,9 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Token expired or invalid
       localStorage.removeItem('access_token');
-      window.location.href = '/login';
+      console.log('Session expired. Please log in again.');
+      
+      // window.location.href = '/login';
     }
     return Promise.reject(error);
   }

@@ -20,6 +20,7 @@ class CrimeAlertController extends Controller
                 ], 401);
             }
 
+            $title = $request->input('title');
             $originalDescription = $request->input('description');
             $lat = $request->input('lat');
             $lng = $request->input('lng');
@@ -34,11 +35,28 @@ class CrimeAlertController extends Controller
             // $aiResponse = $this->cleanDescription($originalDescription); // Uncomment in production
 
             $crime = $user->crimeAlerts()->create([
+                'title' => $title,
                 'lat' => $lat,
                 'lng' => $lng,
                 'description' => $originalDescription, // Replace with $aiResponse in production
                 'isVerified' => true
             ]);
+
+            $nearbyUsers = \App\Models\User::select('*')
+                ->selectRaw("(6371 * acos(cos(radians(?)) * cos(radians(lat)) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance", [$lat, $lng, $lat])
+                ->having('distance', '<=', 1)
+                ->where('id', '!=', $user->id)
+                ->get();
+
+            foreach ($nearbyUsers as $nearbyUser) {
+                \App\Models\Notification::create([
+                    'user_id' => $nearbyUser->id,
+                    'title' => 'Suspected crime is detected near to you',
+                    'message' => $originalDescription,
+                    'read' => false
+                ]);
+            }
+
 
             return response()->json([
                 'message' => 'Crime alert created successfully',

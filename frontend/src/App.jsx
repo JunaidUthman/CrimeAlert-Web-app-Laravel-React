@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer.jsx';
 import Logout from './components/Logout/Logout.jsx';
 import Alerts from './components/Alerts/Alerts.jsx';
 import About from './components/About/About.jsx';
+import Notifications from './components/Notifications/Notifications.jsx';
 import 'leaflet/dist/leaflet.css';
 
 function Layout() {
@@ -14,9 +15,9 @@ function Layout() {
   const hideHeader = location.pathname === '/login' || location.pathname === '/signup';
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {!hideHeader && <Header />}
-      <main className="flex-1 h-full">
+      <main className="flex-1 h-full mt-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Home" element={<Home />} />
@@ -25,6 +26,7 @@ function Layout() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/about" element={<About />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
       </main>
       <Footer />

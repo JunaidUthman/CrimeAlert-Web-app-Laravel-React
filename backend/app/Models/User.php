@@ -23,6 +23,8 @@ class User extends Authenticatable
         'fullName',
         'email',
         'password',
+        'lat',
+        'lng',
     ];
 
     // public function alerts()
@@ -55,5 +57,9 @@ class User extends Authenticatable
 
     public function crimeAlerts(){
         return $this->hasMany(CrimeAlert::class);
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

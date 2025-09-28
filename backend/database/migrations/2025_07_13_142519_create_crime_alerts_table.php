@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('crime_alerts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');// constrained automaticlly creates a foreign key of user
+            $table->string('title');
             $table->decimal('lat', 20, 14);
             $table->decimal('lng', 20, 14);
             $table->text('description');
